@@ -25,7 +25,7 @@
       "name": "Nectar Publisher",
       "applicationCategory": ["dataset", "metadata", "documentation", "csv", "tsv", "xlsx", "xls", "ods", "ddi"],
       "browserRequirements": "requires HTML5 support",
-      "softwareVersion": "Pre-alpha 0.0.1",
+      "softwareVersion": "pre-Dataverse 0.1",
 	  "downloadUrl": "https://github.com/ddi-developers/nectar-publisher/archive/refs/heads/main.zip",
 	  "creator": [
 		  {
@@ -162,6 +162,16 @@
 			<li class="nav-item" role="presentation">
 			  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">🗂️Export documentation</button>
 			</li>
+			<li class="nav-item" role="presentation">
+    <button class="nav-link" id="mappings-tab" data-bs-toggle="tab" data-bs-target="#mappings-tab-pane" type="button" role="tab" aria-controls="mappings-tab-pane" aria-selected="false">
+        <span>🧩</span> Mappings
+    </button>
+</li>
+			<li class="nav-item" role="presentation">
+  <button class="nav-link" id="endpoint-tab" data-bs-toggle="tab" data-bs-target="#endpoint-tab-pane" type="button" role="tab" aria-controls="endpoint-tab-pane" aria-selected="false">
+    <span>🔗</span> Endpoint
+  </button>
+</li>
 		  </ul>
 		  <div class="tab-content" id="myTabContent" v-if="input.dataset.fileName != null">
 
@@ -171,6 +181,10 @@
 					  <div class="col-md-12 label">
 						  <label class="form-label" for="filename">File name</label>
 						  <input v-model="input.dataset.fileName" type="text" class="form-control" id="filename">
+					  </div>
+					  <div class="col-md-12 label">
+						  <label class="form-label" for="schemaorgname">Name (http://schema.org/name)</label>
+						  <input v-model="input.dataset.schemaOrgName" type="text" class="form-control" id="schemaorgname">
 					  </div>
 					  <div class="col-md-12 label">
 						  <label class="form-label" for="studyname">Study name</label>
@@ -203,9 +217,13 @@
 								<label class="form-label" :class="{notFirst: (index > 0)}">Name</label>
 								<input v-model="column.name" type="text" class="form-control" disabled readonly>
 							</div>
-							<div class="col-md-5 label">
+							<div class="col-md-2 label">
 								<label class="form-label" :class="{notFirst: (index > 0)}">Label</label>
 								<input v-model="column.label" type="text" class="form-control">
+							</div>
+							<div class="col-md-2 label">
+								<label class="form-label" :class="{notFirst: (index > 0)}">Definition</label>
+								<input v-model="column.definition" type="text" class="form-control">
 							</div>
 							<div class="col-md-2">
 								<label class="form-label" :class="{notFirst: (index > 0)}">Type</label>
@@ -242,7 +260,6 @@
 										class="btn btn-outline-secondary">⚙️
 								</button>
 							</div>
-
 						</div>
 						<Transition>
 							<div v-if="column.showDetails" class="row details mb-2">
@@ -298,6 +315,53 @@
 					<pre><code v="JSON.stringify(input.dataset, null, 2)" class="language-json"></code></pre>
 				</div>
 			</div>
+			<div class="tab-pane fade" id="mappings-tab-pane" role="tabpanel" aria-labelledby="mappings-tab" tabindex="0">
+  <div class="card mt-2 mb-2">
+    <div class="card-body">
+      <h5>Mappings (xdiCdifMapping)</h5>
+      <div v-if="input.dataset.jsonLdData && input.dataset.jsonLdData.xdiCdifMapping && input.dataset.jsonLdData.xdiCdifMapping['@graph']">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>@id</th>
+              <th>xdi dictionary</th>
+              <th>CDIF implementation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(mapping, idx) in input.dataset.jsonLdData.xdiCdifMapping['@graph']" :key="mapping['@id'] || idx">
+              <td style="font-size:small;max-width:320px;word-break:break-all;">{{ mapping['@id'] }}</td>
+              <td style="font-size:small;">{{ mapping['xdi dictionary'] }}</td>
+              <td style="font-size:small;max-width:380px;">
+                <pre style="margin:0;font-size:x-small;white-space:pre-wrap;">
+                  <code>{{ JSON.stringify(mapping['CDIF implementation'], null, 2) }}</code>
+                </pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <span v-else>No mappings found in file.</span>
+    </div>
+  </div>
+</div>
+			<div class="tab-pane fade" id="endpoint-tab-pane" role="tabpanel" aria-labelledby="endpoint-tab" tabindex="0">
+  <div class="card mt-2 mb-2">
+    <div class="card-body">
+      <h5>Endpoint Parameters</h5>
+      <table v-if="endpointParams && Object.keys(endpointParams).length" class="table table-bordered table-sm">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr v-for="(v,k) in endpointParams" :key="k">
+            <td style="word-break: break-all;">{{ k }}</td>
+            <td style="word-break: break-all;">{{ v }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-else>No endpoint GET parameters detected.</div>
+    </div>
+  </div>
+</div>
 		  </div>
 
 
