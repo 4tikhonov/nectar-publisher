@@ -4,9 +4,15 @@ services:
   nectar-publisher:
     container_name: nectar-publisher
     build: .
+    networks:
+      - traefik
     ports:
       - "8084:80"
     volumes:
       - ./offline/nectar-publisher-main:/usr/local/apache2/htdocs
     environment:
       NODE_ENV: development
+
+networks:
+  traefik:
+    external: true
