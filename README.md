@@ -14,6 +14,11 @@ Document your tabular datasets and create codebooks and machine actionable metad
 * On GitHub pages: https://ddi-developers.github.io/nectar-publisher
 * Localy by download and extracting [this zip-file](https://github.com/ddi-developers/nectar-publisher/archive/refs/heads/main.zip) (works offline when downloaded)
 
+### Docker installation
+```
+docker network create traefik
+docker-compose up -d
+```
 
 ## Implementation and status for `Nectar Publisher 1.0`
 
