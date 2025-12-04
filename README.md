@@ -28,6 +28,16 @@ curl -X POST -H 'Content-type: application/json' http://localhost:8080/api/admin
 curl -X POST -H 'Content-type: application/json' http://localhost:8080/api/admin/externalTools -d \ "{ \"displayName\":\"Nectar Publisher\", \"description\":\"Open in Nectar Publisher\", \"scope\":\"file\", \"type\":\"explore\", \"hasPreviewMode\":\"true\", \"toolUrl\":\"http://localhost:8084\", \"toolParameters\": { \"queryParameters\":[ {\"fileid\":\"{fileId}\"}, {\"siteUrl\":\"{siteUrl}\"}, {\"key\":\"{apiToken}\"}, {\"datasetid\":\"{datasetPid}\"}, {\"datasetversion\":\"{datasetVersion}\"}, {\"locale\":\"{localeCode}\"} ] }, \"contentType\":\"application/octet-stream\" }"
 curl -X POST -H 'Content-type: application/json' http://localhost:8080/api/admin/externalTools -d \ "{ \"displayName\":\"Nectar Publisher\", \"description\":\"Open in Nectar Publisher\", \"scope\":\"file\", \"type\":\"explore\", \"hasPreviewMode\":\"true\", \"toolUrl\":\"http://localhost:8084\", \"toolParameters\": { \"queryParameters\":[ {\"fileid\":\"{fileId}\"}, {\"siteUrl\":\"{siteUrl}\"}, {\"key\":\"{apiToken}\"}, {\"datasetid\":\"{datasetPid}\"}, {\"datasetversion\":\"{datasetVersion}\"}, {\"locale\":\"{localeCode}\"} ] }, \"contentType\":\"text/tab-separated-values\" }"
 ```
+
+## Connect AI Assistant
+Download exporters inside of dataverse folder and restart Dataverse: 
+```
+git clone https://github.com/4tikhonov/exporter-transformer
+mkdir docker-dev-volumes/app/data/exporters
+cp -R exporter-transformer/examples/resourcemap docker-dev-volumes/app/data/exporters/
+docker stop dev_dataverse
+docker start dev_dataverse
+```
 ## Implementation and status for `Nectar Publisher 1.0`
 
 ### Dataset inputs
