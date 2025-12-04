@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  nectar-publisher:
+    container_name: nectar-publisher
+    build: .
+    ports:
+      - "8084:80"
+    volumes:
+      - ./offline/nectar-publisher-main:/usr/local/apache2/htdocs
+    environment:
+      NODE_ENV: development
