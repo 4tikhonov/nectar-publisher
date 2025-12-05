@@ -505,7 +505,9 @@ const app = createApp({
       const params = getQueryParams();
       let url;
       if (params.fileid && params.siteUrl && params.datasetid && params.datasetversion && params.locale) {
-        url = 'https://cdif-4-xas.dev.codata.org/cdi?fileid=' + encodeURIComponent(params.fileid)
+        root = 'https://cdif-4-xas.dev.codata.org';
+        root = 'http://localhost:8015';
+        url = root + '/cdi?fileid=' + encodeURIComponent(params.fileid)
           + '&siteUrl=' + encodeURIComponent(params.siteUrl)
           + '&datasetid=' + encodeURIComponent(params.datasetid)
           + '&datasetversion=' + encodeURIComponent(params.datasetversion)
