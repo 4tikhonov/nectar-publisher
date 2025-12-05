@@ -267,7 +267,7 @@ const app = createApp({
       if (persistentId.startsWith('doi:')) {
         persistentId = encodeURIComponent(persistentId);
       }
-      const resourcemapUrl = `https://dataverse.dev.codata.org/api/datasets/export?exporter=resourcemap&persistentId=${persistentId}`;
+      const resourcemapUrl = `https://dataverse:8080/api/datasets/export?exporter=resourcemap&persistentId=${persistentId}`;
       try {
         const resp = await fetch(resourcemapUrl);
         if (!resp.ok) throw new Error('Failed to load resourcemap: ' + resp.status);
